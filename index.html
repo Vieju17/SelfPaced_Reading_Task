@@ -55,13 +55,49 @@
 
     var timeline = [];
 
-    timeline.push({
-      type: jsPsychFullscreen,
-      message: `<div class='container'>
-        <p>The experiment will switch to <b>full screen mode</b> when you press the button below.</p>
-      </div>`, 
-      fullscreen_mode: true
-    })
+    // var fullscreen = {
+    //   type: jsPsychFullscreen,
+    //   message: `<div class='container'>
+    //     <p>The experiment will switch to <b>full screen mode</b> when you press the button below.</p>
+    //   </div>`,
+    //   fullscreen_mode: true,
+    // };
+    // timeline.push(fullscreen)
+
+    var selected_items = []
+
+    var select_list = {
+      type: jsPsychSurveyHtmlForm,
+      simulation_options: {
+        simulate: false,
+      },
+      html: `<div class='container'>
+        <h1>Select the List to be Used</h1>
+        <select name='list' required>
+          <option value='listA'>List A</option>
+          <option value='listB'>List B</option>
+          <option value='listC'>List C</option>
+          <option value='listD'>List D</option>
+          <option value='listE'>List E</option>
+          <option value='listF'>List F</option>
+          <option value='listG'>List G</option>
+          <option value='listH'>List H</option>
+        </select>
+      </div>`,
+      button_label: "Proceed",
+      on_finish: function (data) {
+        var list = data.response.list
+
+        jsPsych.data.addProperties({
+          list: list,
+        });
+
+        if (list === 'listA') {
+          selected_items = listA
+        }
+      },
+    };
+    timeline.push(select_list);
 
     // Introduction
     var intro = {
@@ -127,7 +163,7 @@
         simulation_options: "short_response",
         data: {
           task: "item",
-          item_number: jsPsych.timelineVariable("item_number"), 
+          item_number: jsPsych.timelineVariable("item_number"),
           item_type: jsPsych.timelineVariable("item_type"),
           segment: "s0",
           clause_type: jsPsych.timelineVariable("clause_type"),
@@ -141,7 +177,7 @@
         simulation_options: "short_response",
         data: {
           task: "item",
-          item_number: jsPsych.timelineVariable("item_number"), 
+          item_number: jsPsych.timelineVariable("item_number"),
           item_type: jsPsych.timelineVariable("item_type"),
           segment: "s1",
           clause_type: jsPsych.timelineVariable("clause_type"),
@@ -155,7 +191,7 @@
         simulation_options: "short_response",
         data: {
           task: "item",
-          item_number: jsPsych.timelineVariable("item_number"), 
+          item_number: jsPsych.timelineVariable("item_number"),
           item_type: jsPsych.timelineVariable("item_type"),
           segment: "s2",
           clause_type: jsPsych.timelineVariable("clause_type"),
@@ -169,7 +205,7 @@
         simulation_options: "short_response",
         data: {
           task: "item",
-          item_number: jsPsych.timelineVariable("item_number"), 
+          item_number: jsPsych.timelineVariable("item_number"),
           item_type: jsPsych.timelineVariable("item_type"),
           segment: "s3",
           clause_type: jsPsych.timelineVariable("clause_type"),
@@ -183,7 +219,7 @@
         simulation_options: "long_response",
         data: {
           task: "item",
-          item_number: jsPsych.timelineVariable("item_number"), 
+          item_number: jsPsych.timelineVariable("item_number"),
           item_type: jsPsych.timelineVariable("item_type"),
           segment: "s4",
           clause_type: jsPsych.timelineVariable("clause_type"),
@@ -197,7 +233,7 @@
         simulation_options: "long_response",
         data: {
           task: "item",
-          item_number: jsPsych.timelineVariable("item_number"), 
+          item_number: jsPsych.timelineVariable("item_number"),
           item_type: jsPsych.timelineVariable("item_type"),
           segment: "s5",
           clause_type: jsPsych.timelineVariable("clause_type"),
@@ -207,7 +243,7 @@
         post_trial_gap: 500,
       },
     ];
-    
+
     // Trial Question
     var trial_question = {
       type: jsPsychHtmlKeyboardResponse,
@@ -216,7 +252,7 @@
       stimulus: jsPsych.timelineVariable("question"),
       data: {
         task: "question",
-        item_number: jsPsych.timelineVariable("item_number"), 
+        item_number: jsPsych.timelineVariable("item_number"),
         item_type: jsPsych.timelineVariable("item_type"),
         correct_answer: jsPsych.timelineVariable("correct_answer"),
         clause_type: jsPsych.timelineVariable("clause_type"),
@@ -227,13 +263,15 @@
           part_answer: data.response,
         });
 
-        return (data.response.toLowerCase() === data.correct_answer.toLowerCase()) ? data.correct = 1 : data.correct = 0;
+        return data.response.toLowerCase() === data.correct_answer.toLowerCase()
+          ? (data.correct = 1)
+          : (data.correct = 0);
       },
       post_trial_gap: 500,
     };
 
     // Trial Question Node
-    var condition = function () {
+    var question_condition = function () {
       // Get the last trial data
       var lastTrialData = jsPsych.data.get().last(1).values()[0];
       // Show question for experimental and filler items
@@ -242,11 +280,11 @@
 
     var trial_question_node = {
       timeline: [trial_question],
-      conditional_function: condition,
+      conditional_function: question_condition,
     };
 
     // Practice Procedure
-    var pr_procedure = {
+    var practice_procedure = {
       timeline: [trial, trial_question_node],
       timeline_variables: [
         {
@@ -292,7 +330,7 @@
       ],
       repetitions: 1,
     };
-    timeline.push(pr_procedure);
+    timeline.push(practice_procedure);
 
     // Test Beginning
     var start_prompt = {
@@ -329,12 +367,12 @@
     // Trial Procedure
     var trial_procedure = {
       timeline: [trial, trial_question_node],
-      timeline_variables: stimulus,
+      timeline_variables: selected_items,
       randomize_order: true,
       sample: {
         type: "without-replacement",
         //size: 2, // For testing purposes
-        size: stimulus.length, // 32 items + 15 fillers
+        size: selected_items.length, 
       },
     };
     timeline.push(trial_procedure);
@@ -415,7 +453,7 @@
     const simulation_options = {
       question_response: {
         data: {
-          rt: 5000
+          rt: 5000,
         },
       },
       long_response: {
@@ -444,4 +482,3 @@
     //jsPsych.simulate(timeline, "data-only", simulation_options);
   </script>
 </html>
-

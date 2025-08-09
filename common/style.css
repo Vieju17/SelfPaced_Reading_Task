@@ -5,9 +5,16 @@
   --green-fade: #3a834372;
   --white: white;
   --background: white;
+  --font-large: 3rem;
+  --font-medium: 1.6rem;
+  --font-small: 1.5rem;
 }
 
 /* General */
+* {
+  font-family: 'Verdana';
+}
+
 @keyframes animate-general-fade-in {
   from {
     opacity: 0;
@@ -32,7 +39,7 @@ b {
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: var(--font-large);
   font-weight: bold;
   color: var(--green);
   margin: 5rem;
@@ -45,7 +52,7 @@ h1::after {
   content: "";
   position: absolute;
   height: 5px;
-  width: 130%;
+  width: calc(100% + 20px);
   background-color: var(--green);
   border-radius: 30px;
   left: 50%;
@@ -56,12 +63,12 @@ h1::after {
 
 h2 {
   color: var(--accent);
-  font-size: 1.6rem;
+  font-size: var(--font-medium);
   font-weight: bold;
 }
 
 p {
-  font-size: 1.5rem;
+  font-size: var(--font-small);
   line-height: 2.5rem;
   width: 40rem;
 }
@@ -77,7 +84,7 @@ label {
   justify-content: space-between;
   width: 130px;
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: var(--font-small);
   color: var(--accent);
   border: 3px solid var(--accent);
   border-radius: 30px;
@@ -102,6 +109,19 @@ input[type="radio"]:checked + label::before,
 input[type="checkbox"]:checked + label::before {
   background-color: white;
   border-color: white;
+}
+
+select {
+  width: 125px;
+  height: 50px;
+  font-size: var(--font-medium);
+  font-weight: bold;
+  color: var(--accent);
+  border-radius: 25px;
+  border-color: var(--accent);
+  border-width: 3px;
+  align-content: center;
+  padding: 5px;
 }
 
 .button svg {
@@ -255,7 +275,6 @@ input[type="checkbox"]:checked + label::before {
 
 /* Introduction */
 .jspsych-display-element input[type="number"] {
-  font-family: "Open Sans", "Arial", sans-serif;
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--accent);
@@ -375,7 +394,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .trial-stimulus::before {
   content: "Press space bar to continue";
-  font-size: 1.2rem;
+  font-size: var(--font-small);
   font-weight: lighter;
   font-style: italic;
   color: rgb(150, 150, 150);
@@ -502,15 +521,13 @@ input[type="number"]::-webkit-inner-spin-button {
 
 /* fonts and type */
 .jspsych-display-element {
-  font-family: "Open Sans", "Arial", sans-serif;
   font-size: 18px;
   line-height: 1.6em;
 }
 
 /* Form elements like input fields and buttons */
 .jspsych-display-element input[type="text"] {
-  font-family: "Open Sans", "Arial", sans-serif;
-  font-size: 1.5rem;
+  font-size: var(--font-small);
   font-weight: bold;
   color: var(--accent);
   text-align: center;
@@ -561,9 +578,8 @@ input[type="number"]::-webkit-inner-spin-button {
   display: inline-block;
   padding: 8px 12px;
   margin: 3rem;
-  font-size: 1.5rem;
+  font-size: var(--font-small);
   font-weight: bold;
-  font-family: "Open Sans", "Arial", sans-serif;
   cursor: pointer;
   line-height: 1.4;
   text-align: center;
