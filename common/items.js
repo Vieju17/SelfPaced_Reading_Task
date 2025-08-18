@@ -1,4 +1,6 @@
-var listA = [
+var listA = []
+
+var list = [
   {
     // Subject Relatives
     // #1

@@ -64,8 +64,6 @@
     // };
     // timeline.push(fullscreen)
 
-    var selected_items = []
-
     var select_list = {
       type: jsPsychSurveyHtmlForm,
       simulation_options: {
@@ -91,10 +89,6 @@
         jsPsych.data.addProperties({
           list: list,
         });
-
-        if (list === 'listA') {
-          selected_items = listA
-        }
       },
     };
     timeline.push(select_list);
@@ -367,12 +361,12 @@
     // Trial Procedure
     var trial_procedure = {
       timeline: [trial, trial_question_node],
-      timeline_variables: selected_items,
+      timeline_variables: listA,
       randomize_order: true,
       sample: {
         type: "without-replacement",
         //size: 2, // For testing purposes
-        size: selected_items.length, 
+        size: listA.length, 
       },
     };
     timeline.push(trial_procedure);
