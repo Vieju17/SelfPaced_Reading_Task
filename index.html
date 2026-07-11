@@ -361,13 +361,7 @@
     // Trial Procedure
     var trial_procedure = {
       timeline: [trial, trial_question_node],
-      timeline_variables: listA,
-      randomize_order: true,
-      sample: {
-        type: "without-replacement",
-        //size: 2, // For testing purposes
-        size: listA.length, 
-      },
+      timeline_variables: list,
     };
     timeline.push(trial_procedure);
 
