@@ -1,7 +1,7 @@
 <!--  Title: Self-Paced Reading Task
       Date: 06/02/2025
       Author: Víctor López Domínguez
-      Repository link: https://github.com/Vieju17/TFG_ExperimentDesign.git
+      Repository link: https://github.com/victor-lopez17/SelfPaced_Reading_Task.git
 -->
 
 <!-- Metadata -->
@@ -44,7 +44,7 @@
 
   <!-- Experiment Script -->
   <script>
-    // Initializing jsPsych and Experiment Timeline
+    // Initializing jsPsych & Experiment Timeline
     const jsPsych = initJsPsych({
       on_finish: function () {
         var part_id = `${jsPsych.data.get().values()[0].part_id}.csv`;
@@ -55,43 +55,14 @@
 
     var timeline = [];
 
-    // var fullscreen = {
-    //   type: jsPsychFullscreen,
-    //   message: `<div class='container'>
-    //     <p>The experiment will switch to <b>full screen mode</b> when you press the button below.</p>
-    //   </div>`,
-    //   fullscreen_mode: true,
-    // };
-    // timeline.push(fullscreen)
-
-    var select_list = {
-      type: jsPsychSurveyHtmlForm,
-      simulation_options: {
-        simulate: false,
-      },
-      html: `<div class='container'>
-        <h1>Select the List to be Used</h1>
-        <select name='list' required>
-          <option value='listA'>List A</option>
-          <option value='listB'>List B</option>
-          <option value='listC'>List C</option>
-          <option value='listD'>List D</option>
-          <option value='listE'>List E</option>
-          <option value='listF'>List F</option>
-          <option value='listG'>List G</option>
-          <option value='listH'>List H</option>
-        </select>
+    var fullscreen = {
+      type: jsPsychFullscreen,
+      message: `<div class='container'>
+        <p>The experiment will switch to <b>full screen mode</b> when you press the button below.</p>
       </div>`,
-      button_label: "Proceed",
-      on_finish: function (data) {
-        var list = data.response.list
-
-        jsPsych.data.addProperties({
-          list: list,
-        });
-      },
+      fullscreen_mode: true,
     };
-    timeline.push(select_list);
+    timeline.push(fullscreen)
 
     // Introduction
     var intro = {
@@ -157,7 +128,8 @@
         simulation_options: "short_response",
         data: {
           task: "item",
-          item_number: jsPsych.timelineVariable("item_number"),
+          item_id: jsPsych.timelineVariable("item_id"),
+          item_list: jsPsych.timelineVariable("item_list"),
           item_type: jsPsych.timelineVariable("item_type"),
           segment: "s0",
           clause_type: jsPsych.timelineVariable("clause_type"),
@@ -171,7 +143,8 @@
         simulation_options: "short_response",
         data: {
           task: "item",
-          item_number: jsPsych.timelineVariable("item_number"),
+          item_id: jsPsych.timelineVariable("item_id"),
+          item_list: jsPsych.timelineVariable("item_list"),
           item_type: jsPsych.timelineVariable("item_type"),
           segment: "s1",
           clause_type: jsPsych.timelineVariable("clause_type"),
@@ -185,7 +158,8 @@
         simulation_options: "short_response",
         data: {
           task: "item",
-          item_number: jsPsych.timelineVariable("item_number"),
+          item_id: jsPsych.timelineVariable("item_id"),
+          item_list: jsPsych.timelineVariable("item_list"),
           item_type: jsPsych.timelineVariable("item_type"),
           segment: "s2",
           clause_type: jsPsych.timelineVariable("clause_type"),
@@ -199,7 +173,8 @@
         simulation_options: "short_response",
         data: {
           task: "item",
-          item_number: jsPsych.timelineVariable("item_number"),
+          item_id: jsPsych.timelineVariable("item_id"),
+          item_list: jsPsych.timelineVariable("item_list"),
           item_type: jsPsych.timelineVariable("item_type"),
           segment: "s3",
           clause_type: jsPsych.timelineVariable("clause_type"),
@@ -213,7 +188,8 @@
         simulation_options: "long_response",
         data: {
           task: "item",
-          item_number: jsPsych.timelineVariable("item_number"),
+          item_id: jsPsych.timelineVariable("item_id"),
+          item_list: jsPsych.timelineVariable("item_list"),
           item_type: jsPsych.timelineVariable("item_type"),
           segment: "s4",
           clause_type: jsPsych.timelineVariable("clause_type"),
@@ -227,7 +203,8 @@
         simulation_options: "long_response",
         data: {
           task: "item",
-          item_number: jsPsych.timelineVariable("item_number"),
+          item_id: jsPsych.timelineVariable("item_id"),
+          item_list: jsPsych.timelineVariable("item_list"),
           item_type: jsPsych.timelineVariable("item_type"),
           segment: "s5",
           clause_type: jsPsych.timelineVariable("clause_type"),
@@ -246,7 +223,8 @@
       stimulus: jsPsych.timelineVariable("question"),
       data: {
         task: "question",
-        item_number: jsPsych.timelineVariable("item_number"),
+        item_id: jsPsych.timelineVariable("item_id"),
+        item_list: jsPsych.timelineVariable("item_list"),
         item_type: jsPsych.timelineVariable("item_type"),
         correct_answer: jsPsych.timelineVariable("correct_answer"),
         clause_type: jsPsych.timelineVariable("clause_type"),
@@ -293,7 +271,8 @@
           number: "ss",
           question: false,
           correct_answer: 0,
-          item_number: null,
+          item_id: null,
+          item_list: null,
         },
         {
           s0: '<p class="trial-stimulus">_________ | ____ | _________ | _____ | ______</p>',
@@ -319,7 +298,8 @@
             </div>
           </div>`,
           correct_answer: "j",
-          item_number: null,
+          item_id: null,
+          item_list: null,
         },
       ],
       repetitions: 1,
@@ -361,7 +341,7 @@
     // Trial Procedure
     var trial_procedure = {
       timeline: [trial, trial_question_node],
-      timeline_variables: list,
+      timeline_variables: demo,
     };
     timeline.push(trial_procedure);
 
